@@ -1,6 +1,6 @@
 # Funzione che chiede all'utente rispondere Y o N
 def chiedi_azione(msg: str) -> None:
-    risposta = input("Andare avanti: [Y/N] ").strip().lower()
+    risposta = input(f"{msg}: [Y/N] ").strip().lower()
     
     if risposta == 'y':
         return True

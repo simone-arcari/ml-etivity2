@@ -19,7 +19,15 @@ print(
 # ----------------------------------------------------------
 
 url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data'
-column_names = ['buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'class']
+column_names = [
+    'buying',   # Prezzo d'acquisto dell’auto (valori: vhigh, high, med, low)
+    'maint',    # Costo di manutenzione annuale (valori: vhigh, high, med, low)
+    'doors',    # Numero di porte dell’auto (valori: 2, 3, 4, 5more)
+    'persons',  # Capacità massima di passeggeri (valori: 2, 4, more)
+    'lug_boot', # Dimensione del bagagliaio (valori: small, med, big)
+    'safety',   # Livello di sicurezza stimato (valori: low, med, high)
+    'class'     # Valutazione complessiva del veicolo (unacc=unacceptable, acc=acceptable, good=good, vgood=very good)
+]
 df = pd.read_csv(url, names=column_names)
 
 # ----------------------------------------------------------
@@ -40,6 +48,7 @@ chi2, p_value, dof, expected = chi2_contingency(contingency_table)
 print("\nRisultati del test del chi-quadro:")
 print(f"Valore del chi-quadro: {chi2:.4f}")
 print(f"p-value: {p_value:.4f}")
+print(f"p-value (notazione scientifica): {repr(p_value)}")
 print(f"Gradi di libertà: {dof}")
 
 print("\nFrequenze attese (se buying e class fossero indipendenti):\n")
@@ -49,7 +58,6 @@ print(expected_df)
 # ----------------------------------------------------------
 # 4. Interpretazione
 # ----------------------------------------------------------
-
 alpha = 0.05
 if p_value < alpha:
     print(f"\nPoiché p-value = {p_value:.4f} < {alpha}, rifiutiamo l'ipotesi nulla:")
