@@ -4,7 +4,7 @@
 VENV_DIR="venv-etivity2"
 
 # Nome del file del programma Python
-PROGRAM="ml-etivity2.py"
+PROGRAM="src/main.py"
 
 # Nome del file delle dipendenze
 REQUIREMENTS="requirements.txt"
