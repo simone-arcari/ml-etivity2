@@ -1,4 +1,6 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from scipy.stats import chi2_contingency
 
 # ----------------------------------------------------------
@@ -7,14 +9,10 @@ from scipy.stats import chi2_contingency
 
 url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/car/car.data'
 column_names = ['buying', 'maint', 'doors', 'persons', 'lug_boot', 'safety', 'class']
-
-# Lettura del file CSV senza intestazioni e con nomi colonna assegnati manualmente
 df = pd.read_csv(url, names=column_names)
 
 # ----------------------------------------------------------
-# 2. Creazione della tabella di contingenza tra:
-#    - buying (prezzo d'acquisto)
-#    - class (valutazione del veicolo)
+# 2. Creazione della tabella di contingenza
 # ----------------------------------------------------------
 
 contingency_table = pd.crosstab(df['buying'], df['class'])
@@ -33,18 +31,38 @@ print(f"Valore del chi-quadro: {chi2:.4f}")
 print(f"p-value: {p_value:.4f}")
 print(f"Gradi di libertà: {dof}")
 
-print("\nFrequenze attese (se buying e class fossero indipendenti):\n")
+# ----------------------------------------------------------
+# 4. Visualizzazione grafica delle tabelle
+# ----------------------------------------------------------
+
 expected_df = pd.DataFrame(expected, index=contingency_table.index, columns=contingency_table.columns)
-print(expected_df)
+
+# Heatmap delle frequenze osservate
+plt.figure(figsize=(10, 6))
+sns.heatmap(contingency_table, annot=True, fmt="d", cmap="Blues")
+plt.title("Frequenze Osservate (buying vs class)")
+plt.xlabel("Classe")
+plt.ylabel("Prezzo d'acquisto")
+plt.tight_layout()
+plt.show()
+
+# Heatmap delle frequenze attese
+plt.figure(figsize=(10, 6))
+sns.heatmap(expected_df, annot=True, fmt=".1f", cmap="YlOrRd")
+plt.title("Frequenze Attese (se buying e class fossero indipendenti)")
+plt.xlabel("Classe")
+plt.ylabel("Prezzo d'acquisto")
+plt.tight_layout()
+plt.show()
 
 # ----------------------------------------------------------
-# 4. Interpretazione
+# 5. Interpretazione
 # ----------------------------------------------------------
 
 alpha = 0.05
 if p_value < alpha:
-    print(f"\nPoiché p-value = {p_value:.10f} < {alpha}, rifiutiamo l'ipotesi nulla:")
+    print(f"\nPoiché p-value = {p_value:.4f} < {alpha}, rifiutiamo l'ipotesi nulla:")
     print("Esiste una dipendenza statisticamente significativa tra 'buying' e 'class'.")
 else:
-    print(f"\nPoiché p-value = {p_value:.10f} >= {alpha}, non possiamo rifiutare l'ipotesi nulla:")
+    print(f"\nPoiché p-value = {p_value:.4f} >= {alpha}, non possiamo rifiutare l'ipotesi nulla:")
     print("Non vi è evidenza sufficiente per affermare che 'buying' e 'class' siano dipendenti.")
