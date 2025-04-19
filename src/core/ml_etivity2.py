@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import chi2_contingency
-from util import chiedi_azione
+from core.util import chiedi_azione
 
 def etivity2_compute(var1: str, var2: str, plotFlag=False) -> str:
 
