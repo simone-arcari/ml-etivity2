@@ -1,5 +1,11 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QComboBox, QPushButton
+import signal
+from PyQt5.QtCore import QTimer
+from PyQt5.QtWidgets import ( QApplication, QMainWindow, 
+                              QWidget, QVBoxLayout, 
+                              QHBoxLayout, QLabel, 
+                              QComboBox, QPushButton
+                            )
 
 from ml_etivity2 import etivity2_compute  
 
@@ -72,6 +78,11 @@ class Etivity2Window(QMainWindow):
         except Exception as e:
             self.output.setText(f"Errore: {e}")
 
+def handle_sigint(signum, frame):
+    """Gestisce il segnale SIGINT per terminare l'applicazione"""
+    print("Intercettato Ctrl+C, chiusura dell'applicazione...")
+    QApplication.quit()
+
 if __name__ == '__main__':
     print(
     "\n    __  __   _               _____   _     _           _   _             ____  "
@@ -82,7 +93,18 @@ if __name__ == '__main__':
     "\n                                                                 |___/         "
     )
 
+    # configura il gestore per il segnale SIGINT
+    signal.signal(signal.SIGINT, handle_sigint)
+
+    # Avvia applicazione Qt
     app = QApplication(sys.argv)
+
+    # Per rilevare SIGINT
+    timer = QTimer()
+    timer.start(100)
+    timer.timeout.connect(lambda: None) # tiene vivo il loop di eventi per rilevare SIGINT
+
+    # Lancia finestra grafica
     window = Etivity2Window()
     window.show()
     sys.exit(app.exec_())
