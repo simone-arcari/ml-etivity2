@@ -75,7 +75,7 @@ class Etivity2Window(QMainWindow):
 
         # Chiama la funzione di calcolo; redireziona l'output nella label
         try:
-            result = etivity2_compute(var1, var2, plotFlag=False)
+            result = etivity2_compute(var1, var2, plotFlag=True)
             self.output.setText(result)
         except Exception as e:
             self.output.setText(f"Errore: {e}")

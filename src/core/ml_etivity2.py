@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy.stats import chi2_contingency
-from core.util import chiedi_azione
 import io
 import sys
 from contextlib import redirect_stdout
@@ -73,20 +72,20 @@ def etivity2_compute(var1: str, var2: str, plotFlag=False) -> str:
         # 5. Visualizzazione grafica delle tabelle
         # ----------------------------------------------------------
 
-        if (plotFlag and chiedi_azione("Visualizzare tabelle di contingenza")):
+        if (plotFlag):
             fig, axes = plt.subplots(1, 2, figsize=(16, 6))
 
             # Heatmap delle frequenze osservate
             sns.heatmap(contingency_table, annot=True, fmt="d", ax=axes[0])
-            axes[0].set_title("Frequenze Osservate (buying vs class)")
-            axes[0].set_xlabel("Classe")
-            axes[0].set_ylabel("Prezzo d'acquisto")
+            axes[0].set_title(f"Frequenze Osservate ({var1} vs {var2})")
+            axes[0].set_xlabel(var1)
+            axes[0].set_ylabel(var2)
 
             # Heatmap delle frequenze attese
             sns.heatmap(expected_df, annot=True, fmt=".1f", ax=axes[1])
-            axes[1].set_title("Frequenze Attese (se buying e class fossero indipendenti)")
-            axes[1].set_xlabel("Classe")
-            axes[1].set_ylabel("Prezzo d'acquisto")
+            axes[1].set_title(f"Frequenze Attese (se {var1} e {var2} fossero indipendenti)")
+            axes[1].set_xlabel(var1)
+            axes[1].set_ylabel(var2)
 
             plt.tight_layout()
             plt.show()
