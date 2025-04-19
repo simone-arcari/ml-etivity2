@@ -4,7 +4,8 @@ import os
 from PyQt5.QtWidgets import ( QMainWindow, 
                               QWidget, QVBoxLayout, 
                               QHBoxLayout, QLabel, 
-                              QComboBox, QPushButton
+                              QComboBox, QPushButton,
+                              QTextEdit
                             )
 
 from core.ml_etivity2 import etivity2_compute
@@ -38,7 +39,7 @@ class Etivity2Window(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Etivity2 - Chi-Quadrato con Reti Bayesiane")
-        self.resize(400, 150)
+        self.resize(600, 550)
 
         # Widget centrale
         central = QWidget()
@@ -63,8 +64,9 @@ class Etivity2Window(QMainWindow):
         self.run_button.clicked.connect(self.on_run_clicked)
         layout.addWidget(self.run_button)
 
-        # Label di output
-        self.output = QLabel("")
+        # Text area di output (solo lettura)
+        self.output = QTextEdit()
+        self.output.setReadOnly(True)
         layout.addWidget(self.output)
 
     def on_run_clicked(self):
@@ -74,6 +76,6 @@ class Etivity2Window(QMainWindow):
         # Chiama la funzione di calcolo; redireziona l'output nella label
         try:
             result = etivity2_compute(var1, var2, plotFlag=False)
-            self.output.setText("Calcolo completato. Controlla la console per i dettagli e i grafici.")
+            self.output.setText(result)
         except Exception as e:
             self.output.setText(f"Errore: {e}")

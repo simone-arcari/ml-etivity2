@@ -1,3 +1,20 @@
+#-----------------------------
+#   RETE BAYESIANA IPOTIZZATA
+#-----------------------------
+# buying     maint     safety
+#    \         |         /
+#     \        |        /
+#      \       |       /
+#       \      |      /
+#        \     |     /
+#         \    |    /
+#          \   |   /
+#           \  |  /
+#            \ | /
+#            class
+
+
+
 import os
 import sys
 
