@@ -1,12 +1,11 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from scipy.stats import chi2_contingency
 import io
 import sys
 from contextlib import redirect_stdout
 from core.Tee import Tee
-
+from core.chi2 import calculate_chi2_test
 
 def etivity2_compute(var1: str, var2: str, plotFlag=False) -> str:
 
@@ -44,8 +43,8 @@ def etivity2_compute(var1: str, var2: str, plotFlag=False) -> str:
         # 3. Applicazione del test del chi-quadro
         # ----------------------------------------------------------
 
-        chi2, p_value, dof, expected = chi2_contingency(contingency_table)
-
+        chi2, p_value, dof, expected = calculate_chi2_test(contingency_table)
+        
         print("\nRisultati del test del chi-quadro:")
         print(f"Valore del chi-quadro: {chi2:.4f}")
         print(f"p-value: {p_value:.4f}")
